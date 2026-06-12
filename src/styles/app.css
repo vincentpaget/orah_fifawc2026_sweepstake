@@ -1,0 +1,13 @@
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; height: 100%; }
+body { background: var(--grey-50); color: var(--grey-800); }
+#root { height: 100vh; }
+button { font-family: var(--font-open-sans); cursor: pointer; }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: var(--grey-300); border-radius: 100px; border: 2px solid var(--grey-50); }
+::-webkit-scrollbar-thumb:hover { background: var(--grey-400); }
+
+.nav-btn { background: transparent; border: 0; }
+.nav-btn.active { background: var(--blue-tint-hover); }
+.nav-btn:not(.active):hover { background: var(--grey-100); }
