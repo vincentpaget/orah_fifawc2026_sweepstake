@@ -15,12 +15,12 @@ export default async function handler(req: any, res: any) {
       headers: { Authorization: `Bearer ${token}` },
     });
     const body = await upstream.text();
-    res
-      .status(upstream.status)
-      .setHeader('Content-Type', 'application/json')
-      .setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=300')
-      .end(body);
+    res.statusCode = upstream.status;
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=300');
+    res.end(body);
   } catch (err) {
-    res.status(500).json({ error: String(err) });
+    res.statusCode = 500;
+    res.end(JSON.stringify({ error: String(err) }));
   }
 }

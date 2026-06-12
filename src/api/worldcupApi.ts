@@ -52,7 +52,7 @@ export async function fetchWorldCupData() {
     fetch(`${BASE}/get/groups`),
     fetch(`${BASE}/get/games`),
   ]);
-  if (!tr.ok || !gr.ok || !mr.ok) throw new Error('worldcup26.ir request failed');
+  if (!tr.ok || !gr.ok || !mr.ok) throw new Error(`worldcup26.ir failed — teams:${tr.status} groups:${gr.status} games:${mr.status}`);
   const teams: WcTeam[] = (await tr.json()).teams;
   const groups: WcGroup[] = (await gr.json()).groups;
   const games: WcGame[] = (await mr.json()).games;
