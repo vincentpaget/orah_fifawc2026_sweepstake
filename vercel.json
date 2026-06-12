@@ -1,10 +1,5 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "framework": "vite",
-  "functions": {
-    "api/wc26/[...path].ts": {
-      "runtime": "nodejs20.x"
-    }
-  }
+  "framework": "vite"
 }
