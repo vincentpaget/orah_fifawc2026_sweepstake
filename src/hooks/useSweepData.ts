@@ -11,21 +11,14 @@ export function useSweepData(): { sweep: SweepData | null; loading: boolean; err
 
   useEffect(() => {
     async function load() {
-      const token = import.meta.env.VITE_WC26_TOKEN as string | undefined;
-
-      if (token) {
-        try {
-          const data = await buildFromWorldCup(token);
-          setSweep(data);
-          setUsingLiveData(true);
-        } catch (e) {
-          console.warn('worldcup26.ir fetch failed, falling back to sample data:', e);
-          setSweep(buildSampleData());
-          setError(String(e));
-          setUsingLiveData(false);
-        }
-      } else {
+      try {
+        const data = await buildFromWorldCup();
+        setSweep(data);
+        setUsingLiveData(true);
+      } catch (e) {
+        console.warn('worldcup26.ir fetch failed, falling back to sample data:', e);
         setSweep(buildSampleData());
+        setError(String(e));
         setUsingLiveData(false);
       }
       setLoading(false);

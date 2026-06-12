@@ -96,8 +96,8 @@ function parseLocalDate(localDate: string): string {
     + ' · ' + d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
 }
 
-export async function buildFromWorldCup(token: string): Promise<SweepData> {
-  const { teams: apiTeams, groups: apiGroups, games: apiGames } = await fetchWorldCupData(token);
+export async function buildFromWorldCup(): Promise<SweepData> {
+  const { teams: apiTeams, groups: apiGroups, games: apiGames } = await fetchWorldCupData();
 
   // ---- Build team map (API id → Team) ----
   const teamByApiId = new Map<string, Team>();

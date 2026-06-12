@@ -1,4 +1,5 @@
-// Routed through Vite proxy (/api/wc26 → https://worldcup26.ir) to avoid CORS.
+// Routed through /api/wc26 proxy (Vite dev: vite.config.ts / prod: api/wc26/[...path].ts).
+// Auth token is injected server-side — the browser never needs it.
 const BASE = '/api/wc26';
 
 export interface WcTeam {
@@ -45,12 +46,11 @@ export interface WcGame {
   away_team_label?: string;
 }
 
-export async function fetchWorldCupData(token: string) {
-  const headers = { Authorization: `Bearer ${token}` };
+export async function fetchWorldCupData() {
   const [tr, gr, mr] = await Promise.all([
-    fetch(`${BASE}/get/teams`, { headers }),
-    fetch(`${BASE}/get/groups`, { headers }),
-    fetch(`${BASE}/get/games`, { headers }),
+    fetch(`${BASE}/get/teams`),
+    fetch(`${BASE}/get/groups`),
+    fetch(`${BASE}/get/games`),
   ]);
   if (!tr.ok || !gr.ok || !mr.ok) throw new Error('worldcup26.ir request failed');
   const teams: WcTeam[] = (await tr.json()).teams;
