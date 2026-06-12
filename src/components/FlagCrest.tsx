@@ -1,11 +1,5 @@
 import type { Flag } from '../types';
 
-function hashStr(s: string): number {
-  let h = 0;
-  for (let i = 0; i < s.length; i++) { h = (h << 5) - h + s.charCodeAt(i); h |= 0; }
-  return h;
-}
-
 interface Props {
   flag: Flag;
   size?: number;
@@ -14,7 +8,6 @@ interface Props {
 
 export function FlagCrest({ flag, size = 28, ring = true }: Props) {
   const { kind, colors: c } = flag;
-  const _id = 'fc' + Math.abs(hashStr(kind + c.join()));
   const W = 60, H = 60;
 
   let inner: React.ReactNode = null;
