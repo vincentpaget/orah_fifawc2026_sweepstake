@@ -31,7 +31,7 @@ export default defineConfig(({ mode }) => {
                 }));
                 return;
               }
-              const [t, g, m] = await Promise.all([tr.json(), gr.json(), mr.json()]);
+              const [t, g, m] = await Promise.all([tr.json(), gr.json(), mr.json()]) as [any, any, any];
               res.statusCode = 200;
               res.setHeader('Content-Type', 'application/json');
               res.end(JSON.stringify({
