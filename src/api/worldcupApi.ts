@@ -1,6 +1,6 @@
-// Routed through /api/wc26 proxy (Vite dev: vite.config.ts / prod: api/wc26/[...path].ts).
-// Auth token is injected server-side — the browser never needs it.
-const BASE = '/api/wc26';
+// In production the browser calls /api/worldcup (Vercel serverless function).
+// In dev the Vite configureServer middleware handles /api/worldcup directly.
+// Auth token is always injected server-side — the browser never needs it.
 
 export interface WcTeam {
   id: string;
@@ -47,14 +47,12 @@ export interface WcGame {
 }
 
 export async function fetchWorldCupData() {
-  const [tr, gr, mr] = await Promise.all([
-    fetch(`${BASE}/get/teams`),
-    fetch(`${BASE}/get/groups`),
-    fetch(`${BASE}/get/games`),
-  ]);
-  if (!tr.ok || !gr.ok || !mr.ok) throw new Error(`worldcup26.ir failed — teams:${tr.status} groups:${gr.status} games:${mr.status}`);
-  const teams: WcTeam[] = (await tr.json()).teams;
-  const groups: WcGroup[] = (await gr.json()).groups;
-  const games: WcGame[] = (await mr.json()).games;
+  const res = await fetch('/api/worldcup');
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
+    throw new Error(body.error ?? `worldcup26.ir request failed: ${res.status}`);
+  }
+  const { teams, groups, games }: { teams: WcTeam[]; groups: WcGroup[]; games: WcGame[] } =
+    await res.json();
   return { teams, groups, games };
 }
